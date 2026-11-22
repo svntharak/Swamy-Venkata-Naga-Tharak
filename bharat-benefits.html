@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharat Benefits</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .bharat-benefits-page {
+      --bb-bg: #eef5f3;
+      --bb-surface: #ffffff;
+      --bb-text: #18312b;
+      --bb-muted: #66766f;
+      --bb-line: #dbe7e2;
+      --bb-primary: #087f5b;
+      --bb-primary-dark: #066347;
+      --bb-accent: #f4a261;
+      --bb-danger: #b42318;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bb-bg);
+      color: var(--bb-text);
+      font-family: "Mukta", "Noto Sans Telugu", sans-serif;
+      line-height: 1.5;
+    }
+    .bharat-benefits-page.bb-dark {
+      --bb-bg: #101b18;
+      --bb-surface: #182520;
+      --bb-text: #edf7f3;
+      --bb-muted: #b4c5bd;
+      --bb-line: #315247;
+      --bb-primary: #48c78e;
+      --bb-primary-dark: #7ad8ad;
+      --bb-accent: #ffc078;
+      --bb-danger: #ff9b91;
+    }
+    .bharat-benefits-page * { box-sizing: border-box; }
+    .bb-shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .bb-header { padding: 18px 0; }
+    .bb-header-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .bb-brand { display: flex; align-items: center; gap: 10px; color: var(--bb-text); text-decoration: none; }
+    .bb-brand-mark {
+      width: 42px; height: 42px; display: grid; place-items: center;
+      border-radius: 12px; background: var(--bb-primary); color: #fff; font-size: 20px;
+    }
+    .bb-brand-name { font-weight: 700; font-size: 20px; }
+    .bb-controls { display: flex; align-items: center; gap: 8px; }
+    .bb-select, .bb-button, .bb-input {
+      min-height: 42px; border: 1px solid var(--bb-line); border-radius: 10px;
+      font: inherit; color: var(--bb-text); background: var(--bb-surface);
+    }
+    .bb-select { padding: 7px 10px; }
+    .bb-icon-button { width: 42px; padding: 0; cursor: pointer; }
+    .bb-button { padding: 9px 16px; cursor: pointer; font-weight: 700; }
+    .bb-button-primary { border-color: var(--bb-primary); background: var(--bb-primary); color: #fff; }
+    .bb-button-secondary { background: var(--bb-surface); color: var(--bb-primary-dark); }
+    .bb-button-danger { background: transparent; color: var(--bb-danger); border-color: var(--bb-danger); }
+    .bb-main { padding: 28px 0 52px; }
+    .bb-auth-grid {
+      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: 22px; align-items: stretch;
+    }
+    .bb-card {
+      background: var(--bb-surface); border: 1px solid var(--bb-line);
+      border-radius: 18px; box-shadow: 0 14px 40px rgba(27, 69, 57, .08);
+    }
+    .bb-preview { min-height: 520px; overflow: hidden; }
+    .bb-banner { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .bb-preview-body { padding: 22px; }
+    .bb-preview-title { margin: 0 0 4px; font-size: 26px; }
+    .bb-preview-subtitle { margin: 0 0 18px; color: var(--bb-muted); }
+    .bb-chat { background: var(--bb-bg); border-radius: 14px; padding: 14px; min-height: 240px; }
+    .bb-message { max-width: 82%; border-radius: 12px 12px 12px 4px; padding: 10px 12px; margin-bottom: 9px; background: var(--bb-surface); }
+    .bb-message-out { margin-left: auto; border-radius: 12px 12px 4px 12px; background: #d9f3e6; color: #18312b; }
+    .bb-auth { padding: 24px; }
+    .bb-auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 18px; }
+    .bb-tab { background: var(--bb-bg); border: 0; }
+    .bb-tab.active { background: var(--bb-primary); color: #fff; }
+    .bb-form { display: grid; gap: 12px; }
+    .bb-field { display: grid; gap: 5px; }
+    .bb-label { font-weight: 700; }
+    .bb-input { width: 100%; padding: 9px 11px; }
+    .bb-error { min-height: 20px; margin: 0; color: var(--bb-danger); font-size: 14px; }
+    .bb-dashboard { display: none; }
+    .bb-dashboard.active { display: grid; gap: 18px; }
+    .bb-auth.hidden { display: none; }
+    .bb-profile-banner {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 22px; background: linear-gradient(135deg, var(--bb-primary), var(--bb-primary-dark)); color: #fff;
+    }
+    .bb-profile-banner h2, .bb-profile-banner p { margin: 0; }
+    .bb-dashboard-grid { display: grid; grid-template-columns: minmax(280px, .78fr) minmax(0, 1.22fr); gap: 18px; }
+    .bb-profile-card, .bb-alert-card { padding: 20px; }
+    .bb-profile-card h3, .bb-alert-card h3 { margin: 0 0 14px; }
+    .bb-profile-list { display: grid; gap: 9px; }
+    .bb-profile-row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--bb-line); padding-bottom: 7px; }
+    .bb-profile-row span:first-child { color: var(--bb-muted); }
+    .bb-alert-list { display: grid; gap: 10px; }
+    .bb-alert-item { border: 1px solid var(--bb-line); border-left: 4px solid var(--bb-accent); border-radius: 10px; padding: 12px; }
+    .bb-alert-item strong { display: block; margin-bottom: 3px; }
+    .bb-alert-item a { color: var(--bb-primary-dark); font-weight: 700; }
+    .bb-status { color: var(--bb-muted); margin: 0; }
+    @media (max-width: 800px) {
+      .bb-header-inner { align-items: flex-start; }
+      .bb-controls { flex-wrap: wrap; justify-content: flex-end; }
+      .bb-auth-grid, .bb-dashboard-grid { grid-template-columns: 1fr; }
+      .bb-preview { min-height: auto; }
+      .bb-banner { height: 150px; }
+    }
+    @media (max-width: 375px) {
+      .bb-shell { width: calc(100% - 20px); }
+      .bb-header { padding-top: 10px; }
+      .bb-header-inner { flex-direction: column; }
+      .bb-controls { width: 100%; justify-content: space-between; }
+      .bb-brand-name { font-size: 18px; }
+      .bb-main { padding: 14px 0 32px; }
+      .bb-preview-body, .bb-auth { padding: 16px; }
+      .bb-banner { height: 130px; }
+      .bb-preview-title { font-size: 22px; }
+      .bb-profile-banner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body class="bharat-benefits-page" id="bharatBenefitsPage">
+  <header class="bb-header">
+    <div class="bb-shell bb-header-inner">
+      <a class="bb-brand" href="index.html" aria-label="Bharat Benefits home">
+        <span class="bb-brand-mark" aria-hidden="true">BB</span>
+        <span class="bb-brand-name" data-i18n="brand">Bharat Benefits</span>
+      </a>
+      <div class="bb-controls">
+        <select class="bb-select" id="bbLanguage" aria-label="Language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="te">తెలుగు</option>
+        </select>
+        <button class="bb-button bb-button-secondary bb-icon-button" id="bbTheme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+        <a class="bb-button bb-button-secondary" href="index.html" data-i18n="backHome">Back to home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="bb-main">
+    <div class="bb-shell">
+      <section class="bb-auth-grid" id="bbGuestView">
+        <article class="bb-card bb-preview">
+          <img class="bb-banner" src="assets/bharat_benefits_banner.jpg" alt="Bharat Benefits">
+          <div class="bb-preview-body">
+            <h1 class="bb-preview-title" data-i18n="welcomeTitle">Welcome to Bharat Benefits</h1>
+            <p class="bb-preview-subtitle" data-i18n="welcomeSubtitle">Your profile, benefits and important updates in one place.</p>
+            <div class="bb-chat" aria-label="WhatsApp-style welcome preview">
+              <div class="bb-message" id="bbChatGreeting" data-i18n="chatGreeting">Namaste! I can help you find schemes that match your profile.</div>
+              <div class="bb-message bb-message-out" data-i18n="chatUser">I want to see benefits available to me.</div>
+              <div class="bb-message" data-i18n="chatReply">Create your profile and check for scheme updates.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bb-card bb-auth" id="bbAuthCard">
+          <div class="bb-auth-tabs">
+            <button class="bb-button bb-tab active" id="bbLoginTab" type="button" data-i18n="login">Log in</button>
+            <button class="bb-button bb-tab" id="bbSignupTab" type="button" data-i18n="signup">Sign up</button>
+          </div>
+          <form class="bb-form" id="bbAuthForm" novalidate>
+            <div class="bb-field bb-signup-only" hidden>
+              <label class="bb-label" for="bbName" data-i18n="name">Name</label>
+              <input class="bb-input" id="bbName" type="text" autocomplete="name" data-i18n-placeholder="namePlaceholder" placeholder="Your name">
+            </div>
+            <div class="bb-field">
+              <label class="bb-label" for="bbEmail" data-i18n="email">Email</label>
+              <input class="bb-input" id="bbEmail" type="email" autocomplete="email" data-i18n-placeholder="emailPlaceholder" placeholder="you@example.com">
+            </div>
+            <div class="bb-field">
+              <label class="bb-label" for="bbPassword" data-i18n="password">Password</label>
+              <input class="bb-input" id="bbPassword" type="password" autocomplete="current-password" data-i18n-placeholder="passwordPlaceholder" placeholder="Minimum 6 characters">
+            </div>
+            <div class="bb-signup-only" hidden>
+              <div class="bb-field">
+                <label class="bb-label" for="bbAge" data-i18n="age">Age</label>
+                <input class="bb-input" id="bbAge" type="number" min="1" max="120" value="30">
+              </div>
+              <div class="bb-field">
+                <label class="bb-label" for="bbGender" data-i18n="gender">Gender</label>
+                <select class="bb-input" id="bbGender">
+                  <option value="All" data-i18n="genderAll">Prefer not to say</option>
+                  <option value="Female" data-i18n="genderFemale">Female</option>
+                  <option value="Male" data-i18n="genderMale">Male</option>
+                </select>
+              </div>
+              <div class="bb-field">
+                <label class="bb-label" for="bbState" data-i18n="state">State</label>
+                <input class="bb-input" id="bbState" type="text" data-i18n-placeholder="statePlaceholder" placeholder="For example, Telangana">
+              </div>
+              <div class="bb-field">
+                <label class="bb-label" for="bbOccupation" data-i18n="occupation">Occupation</label>
+                <select class="bb-input" id="bbOccupation">
+                  <option value="All" data-i18n="occupationAll">Other / Prefer not to say</option>
+                  <option value="Farmer" data-i18n="occupationFarmer">Farmer</option>
+                  <option value="Daily Wage/Informal" data-i18n="occupationDaily">Daily wage or informal work</option>
+                  <option value="Small/Marginal Farmer" data-i18n="occupationSmallFarmer">Small or marginal farmer</option>
+                  <option value="Student" data-i18n="occupationStudent">Student</option>
+                  <option value="Self-Employed/Vendor" data-i18n="occupationVendor">Self-employed or vendor</option>
+                </select>
+              </div>
+              <div class="bb-field">
+                <label class="bb-label" for="bbIncome" data-i18n="income">Annual family income</label>
+                <input class="bb-input" id="bbIncome" type="number" min="0" value="200000">
+              </div>
+            </div>
+            <p class="bb-error" id="bbAuthError" role="alert"></p>
+            <button class="bb-button bb-button-primary" id="bbAuthSubmit" type="submit" data-i18n="login">Log in</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="bb-dashboard" id="bbDashboard">
+        <div class="bb-card bb-profile-banner">
+          <div>
+            <h2 id="bbUserGreeting">Welcome</h2>
+            <p data-i18n="dashboardSubtitle">Your profile and matched scheme alerts</p>
+          </div>
+          <button class="bb-button bb-button-danger" id="bbLogout" type="button" data-i18n="logout">Log out</button>
+        </div>
+        <div class="bb-dashboard-grid">
+          <article class="bb-card bb-profile-card">
+            <h3 data-i18n="profile">Your profile</h3>
+            <div class="bb-profile-list" id="bbProfileList"></div>
+          </article>
+          <article class="bb-card bb-alert-card" id="scheme-alerts">
+            <h3 data-i18n="schemeAlerts">Scheme alerts</h3>
+            <button class="bb-button bb-button-primary" id="bbCheckUpdates" type="button" data-i18n="checkUpdates">Check for scheme updates</button>
+            <p class="bb-status" id="bbUpdateStatus"></p>
+            <div class="bb-alert-list" id="bbAlertList"></div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      const page = document.getElementById("bharatBenefitsPage");
+      const guestView = document.getElementById("bbGuestView");
+      const dashboard = document.getElementById("bbDashboard");
+      const authForm = document.getElementById("bbAuthForm");
+      const authError = document.getElementById("bbAuthError");
+      const signupFields = document.querySelectorAll(".bb-signup-only");
+      let mode = "login";
+      let language = localStorage.getItem("bb-language") || "en";
+      let schemes = [];
+
+      function ensureDemoAccount() {
+        let accounts = {};
+        try {
+          accounts = JSON.parse(localStorage.getItem("bb-accounts") || "{}");
+        } catch (error) {
+          accounts = {};
+        }
+        if (!accounts["demo@bharatbenefits.in"]) {
+          accounts["demo@bharatbenefits.in"] = {
+            password: "Demo@123",
+            profile: {
+              name: "Demo Citizen",
+              age: 30,
+              gender: "All",
+              state: "All India",
+              occupation: "All",
+              income: 200000
+            }
+          };
+          localStorage.setItem("bb-accounts", JSON.stringify(accounts));
+        }
+      }
+
+      ensureDemoAccount();
+
+      const translations = {
+        en: {
+          brand:"Bharat Benefits", backHome:"Back to home", welcomeTitle:"Welcome to Bharat Benefits",
+          welcomeSubtitle:"Your profile, benefits and important updates in one place.",
+          chatGreeting:"Namaste! I can help you find schemes that match your profile.",
+          chatUser:"I want to see benefits available to me.", chatReply:"Create your profile and check for scheme updates.",
+          login:"Log in", signup:"Sign up", name:"Name", email:"Email", password:"Password", age:"Age", gender:"Gender", state:"State", occupation:"Occupation", income:"Annual family income",
+          namePlaceholder:"Your name", emailPlaceholder:"you@example.com", passwordPlaceholder:"Minimum 6 characters", statePlaceholder:"For example, Telangana",
+          genderAll:"Prefer not to say", genderFemale:"Female", genderMale:"Male", occupationAll:"Other / Prefer not to say", occupationFarmer:"Farmer", occupationDaily:"Daily wage or informal work", occupationSmallFarmer:"Small or marginal farmer", occupationStudent:"Student", occupationVendor:"Self-employed or vendor",
+          dashboardSubtitle:"Your profile and matched scheme alerts", logout:"Log out", profile:"Your profile", schemeAlerts:"Scheme alerts", checkUpdates:"Check for scheme updates",
+          fillRequired:"Please fill in all required fields.", invalidEmail:"Enter a valid email address.", shortPassword:"Password must be at least 6 characters.",
+          loginFailed:"No account was found for this email and password.", signupSuccess:"Account created successfully.", loginSuccess:"Logged in successfully.",
+          noMatches:"No scheme matches were found for the current profile.", updatesChecked:"Scheme updates checked.",
+          nameLabel:"Name", ageLabel:"Age", genderLabel:"Gender", stateLabel:"State", occupationLabel:"Occupation", incomeLabel:"Income",
+          welcomeGreeting:"Welcome"
+        },
+        hi: {
+          brand:"भारत लाभ", backHome:"मुखपृष्ठ पर वापस", welcomeTitle:"भारत लाभ में आपका स्वागत है",
+          welcomeSubtitle:"आपकी प्रोफ़ाइल, लाभ और महत्वपूर्ण अपडेट एक ही जगह।",
+          chatGreeting:"नमस्ते! मैं आपकी प्रोफ़ाइल से मेल खाने वाली योजनाएं खोजने में मदद कर सकता हूँ।",
+          chatUser:"मैं अपने लिए उपलब्ध लाभ देखना चाहता/चाहती हूँ।", chatReply:"अपनी प्रोफ़ाइल बनाएं और योजना अपडेट देखें।",
+          login:"लॉग इन", signup:"साइन अप", name:"नाम", email:"ईमेल", password:"पासवर्ड", age:"आयु", gender:"लिंग", state:"राज्य", occupation:"व्यवसाय", income:"वार्षिक परिवार आय",
+          namePlaceholder:"आपका नाम", emailPlaceholder:"आपका@ईमेल.com", passwordPlaceholder:"कम से कम 6 अक्षर", statePlaceholder:"उदाहरण: तेलंगाना",
+          genderAll:"बताना नहीं चाहते", genderFemale:"महिला", genderMale:"पुरुष", occupationAll:"अन्य / बताना नहीं चाहते", occupationFarmer:"किसान", occupationDaily:"दिहाड़ी या असंगठित काम", occupationSmallFarmer:"लघु या सीमांत किसान", occupationStudent:"छात्र", occupationVendor:"स्वरोजगार या विक्रेता",
+          dashboardSubtitle:"आपकी प्रोफ़ाइल और मेल खाने वाले योजना अलर्ट", logout:"लॉग आउट", profile:"आपकी प्रोफ़ाइल", schemeAlerts:"योजना अलर्ट", checkUpdates:"योजना अपडेट देखें",
+          fillRequired:"कृपया सभी आवश्यक जानकारी भरें।", invalidEmail:"एक वैध ईमेल पता दर्ज करें।", shortPassword:"पासवर्ड कम से कम 6 अक्षर का होना चाहिए।",
+          loginFailed:"इस ईमेल और पासवर्ड के लिए कोई खाता नहीं मिला।", signupSuccess:"खाता सफलतापूर्वक बनाया गया।", loginSuccess:"सफलतापूर्वक लॉग इन हुआ।",
+          noMatches:"वर्तमान प्रोफ़ाइल से मेल खाती कोई योजना नहीं मिली।", updatesChecked:"योजना अपडेट जांचे गए।",
+          nameLabel:"नाम", ageLabel:"आयु", genderLabel:"लिंग", stateLabel:"राज्य", occupationLabel:"व्यवसाय", incomeLabel:"आय",
+          welcomeGreeting:"स्वागत है"
+        },
+        te: {
+          brand:"భారత్ బెనిఫిట్స్", backHome:"హోమ్‌కు తిరిగి వెళ్ళండి", welcomeTitle:"భారత్ బెనిఫిట్స్‌కు స్వాగతం",
+          welcomeSubtitle:"మీ ప్రొఫైల్, ప్రయోజనాలు మరియు ముఖ్యమైన నవీకరణలు ఒకే చోట.",
+          chatGreeting:"నమస్తే! మీ ప్రొఫైల్‌కు సరిపోయే పథకాలను నేను గుర్తించడంలో సహాయం చేస్తాను.",
+          chatUser:"నాకు లభించే ప్రయోజనాలను చూడాలనుకుంటున్నాను.", chatReply:"మీ ప్రొఫైల్‌ను సృష్టించి పథకాల నవీకరణలను చూడండి.",
+          login:"లాగిన్", signup:"సైన్ అప్", name:"పేరు", email:"ఇమెయిల్", password:"పాస్‌వర్డ్", age:"వయస్సు", gender:"లింగం", state:"రాష్ట్రం", occupation:"ఉద్యోగం", income:"వార్షిక కుటుంబ ఆదాయం",
+          namePlaceholder:"మీ పేరు", emailPlaceholder:"మీ@ఇమెయిల్.com", passwordPlaceholder:"కనీసం 6 అక్షరాలు", statePlaceholder:"ఉదాహరణ: తెలంగాణ",
+          genderAll:"చెప్పకూడదనుకుంటున్నాను", genderFemale:"మహిళ", genderMale:"పురుషుడు", occupationAll:"ఇతరము / చెప్పకూడదు", occupationFarmer:"రైతు", occupationDaily:"కూలీ లేదా అనధికార పని", occupationSmallFarmer:"చిన్న లేదా సాపేక్ష రైతు", occupationStudent:"విద్యార్థి", occupationVendor:"స్వయం ఉపాధి లేదా విక్రేత",
+          dashboardSubtitle:"మీ ప్రొఫైల్ మరియు సరిపోలిన పథక హెచ్చరికలు", logout:"లాగ్ అవుట్", profile:"మీ ప్రొఫైల్", schemeAlerts:"పథక హెచ్చరికలు", checkUpdates:"పథక నవీకరణలను తనిఖీ చేయండి",
+          fillRequired:"దయచేసి అవసరమైన అన్ని వివరాలను పూరించండి.", invalidEmail:"చెల్లుబాటు అయ్యే ఇమెయిల్ చిరునామా నమోదు చేయండి.", shortPassword:"పాస్‌వర్డ్ కనీసం 6 అక్షరాలు ఉండాలి.",
+          loginFailed:"ఈ ఇమెయిల్ మరియు పాస్‌వర్డ్‌కు ఖాతా లేదు.", signupSuccess:"ఖాతా విజయవంతంగా సృష్టించబడింది.", loginSuccess:"విజయవంతంగా లాగిన్ అయ్యారు.",
+          noMatches:"ప్రస్తుత ప్రొఫైల్‌కు సరిపోయే పథకాలు కనుగొనబడలేదు.", updatesChecked:"పథక నవీకరణలు తనిఖీ చేయబడ్డాయి.",
+          nameLabel:"పేరు", ageLabel:"వయస్సు", genderLabel:"లింగం", stateLabel:"రాష్ట్రం", occupationLabel:"ఉద్యోగం", incomeLabel:"ఆదాయం",
+          welcomeGreeting:"స్వాగతం"
+        }
+      };
+
+      function text(key) { return translations[language][key] || translations.en[key] || key; }
+
+      function applyLanguage(lang) {
+        language = translations[lang] ? lang : "en";
+        localStorage.setItem("bb-language", language);
+        document.documentElement.lang = language;
+        document.getElementById("bbLanguage").value = language;
+        document.querySelectorAll("[data-i18n]").forEach(function (node) {
+          const key = node.getAttribute("data-i18n");
+          node.textContent = text(key);
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(function (node) {
+          node.placeholder = text(node.getAttribute("data-i18n-placeholder"));
+        });
+        if (dashboard.classList.contains("active")) {
+          renderProfile();
+          document.getElementById("bbUpdateStatus").textContent = "";
+          checkUpdates(false);
+        }
+      }
+
+      function setMode(nextMode) {
+        mode = nextMode;
+        authError.textContent = "";
+        document.getElementById("bbLoginTab").classList.toggle("active", mode === "login");
+        document.getElementById("bbSignupTab").classList.toggle("active", mode === "signup");
+        signupFields.forEach(function (field) { field.hidden = mode !== "signup"; });
+        document.getElementById("bbPassword").autocomplete = mode === "signup" ? "new-password" : "current-password";
+        document.getElementById("bbAuthSubmit").textContent = text(mode);
+      }
+
+      document.getElementById("bbLoginTab").addEventListener("click", function () { setMode("login"); });
+      document.getElementById("bbSignupTab").addEventListener("click", function () { setMode("signup"); });
+      document.getElementById("bbLanguage").addEventListener("change", function (event) { applyLanguage(event.target.value); });
+      document.getElementById("bbTheme").addEventListener("click", function () { page.classList.toggle("bb-dark"); });
+
+      authForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        authError.textContent = "";
+        const email = document.getElementById("bbEmail").value.trim();
+        const password = document.getElementById("bbPassword").value;
+        if (!email || !password || (mode === "signup" && !document.getElementById("bbName").value.trim())) {
+          authError.textContent = text("fillRequired");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          authError.textContent = text("invalidEmail");
+          return;
+        }
+        if (password.length < 6) {
+          authError.textContent = text("shortPassword");
+          return;
+        }
+
+        let accounts = JSON.parse(localStorage.getItem("bb-accounts") || "{}");
+        if (mode === "signup") {
+          if (accounts[email]) {
+            setMode("login");
+            document.getElementById("bbEmail").value = email;
+            authError.style.color = "#67e8f9";
+            authError.textContent = "This email already belongs to your account. Please log in to continue.";
+            document.getElementById("bbPassword").focus();
+            return;
+          }
+          accounts[email] = {
+            password: password,
+            profile: {
+              name: document.getElementById("bbName").value.trim(),
+              age: Number(document.getElementById("bbAge").value),
+              gender: document.getElementById("bbGender").value,
+              state: document.getElementById("bbState").value.trim() || "All India",
+              occupation: document.getElementById("bbOccupation").value,
+              income: Number(document.getElementById("bbIncome").value)
+            }
+          };
+          localStorage.setItem("bb-accounts", JSON.stringify(accounts));
+          localStorage.setItem("bb-session", email);
+          redirectAfterAuth(text("signupSuccess"));
+        } else {
+          const account = accounts[email];
+          if (!account || account.password !== password) {
+            authError.textContent = text("loginFailed");
+            return;
+          }
+          localStorage.setItem("bb-session", email);
+          redirectAfterAuth(text("loginSuccess"));
+        }
+      });
+
+      function redirectAfterAuth(message) {
+        authError.textContent = "";
+        authError.style.color = "var(--bb-primary)";
+        authError.textContent = "✓ " + message;
+        sessionStorage.setItem("bb-auth-success", message);
+        window.setTimeout(function () {
+          window.location.href = "index.html";
+        }, 650);
+      }
+
+      document.getElementById("bbLogout").addEventListener("click", function () {
+        localStorage.removeItem("bb-session");
+        dashboard.classList.remove("active");
+        guestView.style.display = "grid";
+        authForm.reset();
+        setMode("login");
+      });
+
+      function getSessionAccount() {
+        const email = localStorage.getItem("bb-session");
+        if (!email) return null;
+        const accounts = JSON.parse(localStorage.getItem("bb-accounts") || "{}");
+        return accounts[email] ? { email: email, account: accounts[email] } : null;
+      }
+
+      function showDashboard() {
+        guestView.style.display = "none";
+        dashboard.classList.add("active");
+        renderProfile();
+        checkUpdates(false);
+      }
+
+      function renderProfile() {
+        const session = getSessionAccount();
+        if (!session) return;
+        const profile = session.account.profile;
+        document.getElementById("bbUserGreeting").textContent = text("welcomeGreeting") + ", " + profile.name;
+        const genderText = profile.gender === "Female" ? text("genderFemale") : profile.gender === "Male" ? text("genderMale") : text("genderAll");
+        const occupationText = document.getElementById("bbOccupation").querySelector('option[value="' + profile.occupation + '"]');
+        const occupationLabel = occupationText ? occupationText.textContent : profile.occupation;
+        const rows = [
+          [text("nameLabel"), profile.name],
+          [text("ageLabel"), profile.age],
+          [text("genderLabel"), genderText],
+          [text("stateLabel"), profile.state],
+          [text("occupationLabel"), occupationLabel],
+          [text("incomeLabel"), "₹" + Number(profile.income || 0).toLocaleString("en-IN")]
+        ];
+        document.getElementById("bbProfileList").innerHTML = rows.map(function (row) {
+          return '<div class="bb-profile-row"><span>' + escapeHtml(row[0]) + '</span><strong>' + escapeHtml(row[1]) + '</strong></div>';
+        }).join("");
+      }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (char) {
+          return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char];
+        });
+      }
+
+      async function loadSchemes() {
+        if (schemes.length) return schemes;
+        try {
+          const response = await fetch("data/schemes.json");
+          if (!response.ok) throw new Error("Scheme data unavailable");
+          schemes = await response.json();
+        } catch (error) {
+          schemes = [];
+        }
+        return schemes;
+      }
+
+      async function checkUpdates(showStatus) {
+        const session = getSessionAccount();
+        if (!session) return;
+        const profile = session.account.profile;
+        const status = document.getElementById("bbUpdateStatus");
+        const list = document.getElementById("bbAlertList");
+        if (showStatus) status.textContent = text("updatesChecked");
+        const data = await loadSchemes();
+        const matches = data.filter(function (scheme) {
+          if (profile.age < (scheme.min_age || 0) || profile.age > (scheme.max_age || 120)) return false;
+          if (profile.income > (scheme.max_income || 10000000)) return false;
+          if (scheme.gender && scheme.gender !== "All" && profile.gender !== "All" && scheme.gender !== profile.gender) return false;
+          if (scheme.state && scheme.state !== "All India" && profile.state !== "All India" && scheme.state.toLowerCase() !== profile.state.toLowerCase()) return false;
+          if (scheme.employment && !scheme.employment.includes("All") && !scheme.employment.includes(profile.occupation)) return false;
+          return true;
+        }).slice(0, 8);
+
+        if (!matches.length) {
+          list.innerHTML = '<p class="bb-status">' + escapeHtml(text("noMatches")) + '</p>';
+          return;
+        }
+        list.innerHTML = matches.map(function (scheme) {
+          const portal = scheme.portal_url ? '<a href="' + escapeHtml(scheme.portal_url) + '" target="_blank" rel="noopener">' + escapeHtml(scheme.application_window || "Visit portal") + '</a>' : "";
+          return '<div class="bb-alert-item"><strong>' + escapeHtml(scheme.name) + '</strong><span>' + escapeHtml(scheme.benefit || scheme.description || "") + '</span><br>' + portal + '</div>';
+        }).join("");
+      }
+
+      document.getElementById("bbCheckUpdates").addEventListener("click", function () { checkUpdates(true); });
+
+      applyLanguage(language);
+      const activeSession = getSessionAccount();
+      if (activeSession) {
+        window.location.href = "index.html";
+      }
+    })();
+  </script>
+</body>
+</html>

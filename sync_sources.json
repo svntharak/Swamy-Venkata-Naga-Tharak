@@ -1,0 +1,30 @@
+{
+  "interval_hours": 6,
+  "sources": [
+    {
+      "name": "MyScheme Government Schemes",
+      "url": "https://www.myscheme.gov.in/",
+      "timeout_seconds": 12
+    },
+    {
+      "name": "India Government Schemes Directory",
+      "url": "https://services.india.gov.in/",
+      "timeout_seconds": 12
+    },
+    {
+      "name": "PM-KISAN Portal",
+      "url": "https://pmkisan.gov.in/",
+      "timeout_seconds": 12
+    },
+    {
+      "name": "Ayushman Bharat PM-JAY",
+      "url": "https://beneficiary.nha.gov.in/",
+      "timeout_seconds": 12
+    },
+    {
+      "name": "Digital India Government Services",
+      "url": "https://www.digitalindia.gov.in/",
+      "timeout_seconds": 12
+    }
+  ]
+}
